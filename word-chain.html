@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+</head>
+<body>
+    
+    <script>
+        const body = document.body;
+        const word = document.createElement('div');
+        const form = document.createElement('form');
+        const input = document.createElement('input');
+        const button = document.createElement('button');
+        const result = document.createElement('div');
+
+        body.append(word);
+        body.append(form);
+        form.append(input);
+        form.append(button);
+        body.append(result);
+        word.textContent = '자동차';
+        button.textContent = '입력';
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (word.textContent[word.textContent.length - 1] === input.value[0]) {
+                result.textContent = '딩동댕!';
+                word.textContent += ' - ' + input.value;
+                input.value='';
+                input.focus();
+            } else {
+                result.textContent = '땡!'
+                input.value='';
+                input.focus();
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+</head>
+<body>
+    <script>
+        const body = document.body;
+        const question = document.createElement('div');
+        const form = document.createElement('form');
+        const input = document.createElement('input');
+        const button = document.createElement('button');
+        const result = document.createElement('div');
+        let number1 = Math.ceil(Math.random() * 9);
+        let number2 = Math.ceil(Math.random() * 9);
+        let answer = number1 * number2; 
+
+        body.append(question);
+        body.append(form);
+        form.append(input);
+        input.type = 'number';
+        form.append(button);
+        body.append(result);
+        question.textContent = number1 + ' x ' + number2 + ' = ?';
+        button.textContent = '입력';
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (answer === Number(input.value)) {
+                result.textContent = '딩동댕!';
+                number1 = Math.ceil(Math.random() * 9);
+                number2 = Math.ceil(Math.random() * 9);
+                answer = number1 * number2;
+                question.textContent = number1 + ' x ' + number2 + ' = ?';
+                input.value='';
+                input.focus();
+            } else {
+                result.textContent = '땡!'
+                input.value='';
+                input.focus();
+            }
+        })
+        /* 
+        while (true) {
+            const number1 = Math.ceil(Math.random() * 9); // 1부터 9까지 랜덤한 숫자
+            const number2 = Math.ceil(Math.random() * 9); 
+            const result = number1 * number2;
+            let condition = true
+            while (condition) {
+                const answer = prompt(String(number1) + 'x' + String(number2) + '는?')
+                if (result === Number(answer)) {
+                    alert('딩동댕! 정답입니다.');
+                    condition = false;
+                } else {
+                    alert('땡! 틀렸습니다')
+                }
+            }
+        } */
+    </script>
+</body>
+</html>
