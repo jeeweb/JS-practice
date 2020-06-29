@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자야구</title>
+</head>
+<body>
+    
+    <script>
+        const body = document.body;
+        const form = document.createElement('form');
+        const input = document.createElement('input');
+        const button = document.createElement('button');
+        const result = document.createElement('div');
+        let numbers;
+        let selectNumbers;
+        let wrongCount= 0;
+
+        body.append(form);
+        form.append(input);
+        input.type = 'number';
+        input.maxLength = 4;
+        form.append(button);
+        button.textContent = '입력';
+        body.append(result);
+        
+        function selectNum() {
+            numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            selectNumbers = [];
+            
+            for (let i = 0; i < 4; i++) {
+                //console.log(numbers.length)
+                let select = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+                selectNumbers.push(select);
+            }
+            // console.log(selectNumbers);
+        }
+        
+        selectNum();
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let answer = input.value;
+            // console.log(answer);
+            if (answer === selectNumbers.join('')) {
+                result.textContent = '홈런';
+                input.value = '';
+                input.focus();
+                wrongCount = 0;
+                selectNum();
+            } else{
+                const answerArray = answer.split('');
+                let strike = 0;
+                let ball = 0;
+                wrongCount++;
+
+                if (wrongCount > 5) {
+                    result.textContent = '5회 이상 틀렸습니다. 실패입니다. 답은 ' + selectNumbers.join('') + '였습니다.'
+                    input.value = '';
+                    input.focus();
+                    wrongCount = 0;
+                    selectNum();
+                }
+
+                for (let i = 0; i < 3; i++) {
+                    if (Number(answerArray[i]) === selectNumbers[i]) {
+                        strike++
+                    } else if (selectNumbers.indexOf(Number(answerArray[i])) > -1) {
+                        ball++
+                    }
+                }
+                result.textContent = strike + '스트라이크 ' + ball + '볼 '
+            }
+        })
+    </script>
+</body>
+</html>
