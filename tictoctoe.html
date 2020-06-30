@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>틱택토</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            width: 300px;
+            height: 300px;
+        }
+        table td{
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const body = document.body;
+        const table = document.createElement('table');
+        let rows = [];
+        let columns = [];
+
+        const columnClick = function(event) {
+            console.log(event.target)
+        }
+
+        for ( i = 1; i <= 3; i++) {
+            const row = document.createElement('tr');
+            rows.push(row);
+            columns.push([]);
+            for (j = 1; j <= 3; j++) {
+                var column = document.createElement('td');
+                column.addEventListener('click', columnClick)
+                columns[i - 1].push(column)
+                row.appendChild(column);
+            }
+            table.appendChild(row);
+        }
+        body.append(table);
+        
+    </script>
+</body>
+</html>
