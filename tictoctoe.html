@@ -7,10 +7,12 @@
     <style>
         table{
             border-collapse: collapse;
-            width: 300px;
-            height: 300px;
         }
         table td{
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            font-size: 3em;
             border: 1px solid #333;
         }
     </style>
@@ -19,11 +21,81 @@
     <script>
         const body = document.body;
         const table = document.createElement('table');
+        const result = document.createElement('div');
         let rows = [];
         let columns = [];
+        let turn = 'X'
 
         const columnClick = function(event) {
-            console.log(event.target)
+            //console.log(event.target)   // column
+            //console.log(event.target.parentNode)    // row
+            //console.log(event.target.parentNode.parentNode) // table
+
+            const rowNum = rows.indexOf(event.target.parentNode);
+            const columnNum = columns[rowNum].indexOf(event.target);
+            console.log('몇번째 줄: ', rowNum, ' 몇번째 칸: ', columnNum)
+
+            if (columns[rowNum][columnNum].textContent !== '') {   // 칸이 이미 채워져 있는가?
+                console.log('빈칸이 아닙니다');
+            } else {
+                columns[rowNum][columnNum].textContent = turn;
+
+                // 세칸이 다 채워졌는가?
+                let fillOut = false;
+                // 가로줄 검사
+                if (
+                    columns[rowNum][0].textContent === turn && 
+                    columns[rowNum][1].textContent === turn && 
+                    columns[rowNum][2].textContent === turn
+                ) {
+                    fillOut = true;
+                }
+                // 세로줄 검사
+                if (
+                    columns[columnNum][0].textContent === turn && 
+                    columns[columnNum][1].textContent === turn && 
+                    columns[columnNum][2].textContent === turn
+                ) {
+                    fillOut = true;
+                }
+                // 대각선 검사
+                if (rowNum - columnNum === 0) { // 대각선 검사 필요한 경우
+                    if (
+                        columns[0][0].textContent === turn &&
+                        columns[1][1].textContent === turn &&
+                        columns[2][2].textContent === turn 
+                    ) {
+                        fillOut = true;
+                    }
+                }
+                if (Math.abs(rowNum - columnNum) === 2) { // 대각선 검사 필요한 경우
+                    if (
+                        columns[0][2].textContent === turn &&
+                        columns[1][1].textContent === turn &&
+                        columns[2][0].textContent === turn 
+                    ) {
+                        fillOut = true;
+                    }
+                }
+                // 모두 다 채워졌으면
+                if (fillOut) {
+                    result.textContent = turn + '님이 승리!';
+                    //초기화
+                    turn = 'X';
+                    columns.forEach(function(row) {
+                        row.forEach(function(column) {
+                            column.textContent = '';
+                        })
+                    })
+                } else {    // 다 채워지지 않았다면
+                    if (turn === 'X'){
+                    turn = 'O';
+                    } else {
+                        turn = 'X';
+                    }    
+                }
+            }
+            
         }
 
         for ( i = 1; i <= 3; i++) {
@@ -39,6 +111,7 @@
             table.appendChild(row);
         }
         body.append(table);
+        body.append(result);
         
     </script>
 </body>
