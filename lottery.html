@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또추첨기</title>
+    <style>
+        #result span{
+            margin: 0 6px;
+        }
+    </style>
+</head>
+<body>
+    <div id="result"></div>
+    <span class="bonus"></span>
+    <script>
+        /* // forEach
+        const numbers = Array(45);  // 빈값 배열
+        const fillNumbers = numbers.fill(); // undefined를 45개 채움, IE에서는 fill메서드 안됨
+        
+        fillNumbers.forEach(function(element, index) {
+            //console.log(element, index + 1)
+            fillNumbers[index] = index + 1;
+        })
+        console.log(fillNumbers)
+        */
+        
+        // map 
+        const numbers = Array(45)
+            .fill()
+            .map(function(element, index) {
+            return index + 1;
+        })
+        console.log(numbers);
+
+        let shuffle = [];
+        // for문으로 할때 기준값(numbers.length)이 줄어들기 때문에, 바뀌기 때문에 for문 보다는 while문을 쓰는게 더 좋음
+        while (numbers.length > 0) {
+            let move = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]; // 0~ 44
+            shuffle.push(move);
+        }
+        console.log(shuffle);
+
+        const bonusNumber = shuffle[shuffle.length - 1];
+        const winNumbers = shuffle
+            .slice(0, 6)
+            .sort(function (p, c) { 
+                return p - c 
+            }); // 오름차순
+        console.log('당첨숫자들 ', winNumbers, ' 보너스숫자 ', bonusNumber);
+
+        const result = document.querySelector('#result');
+        const bonusBall = document.querySelector('.bonus');
+
+        for (var i = 0; i < winNumbers.length; i++) {
+            let ball = document.createElement('span');
+            ball.textContent = winNumbers[i];
+            result.appendChild(ball);
+        }
+        bonusBall.textContent = bonusNumber;
+        
+    </script>
+</body>
+</html>
