@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로또추첨기</title>
     <style>
-        #result span{
+        #result span,
+        .bonus{
+            display: inline-block;
+            line-height: 30px;;
+            text-align: center;
             margin: 0 6px;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #000;
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
+    <p>당첨 숫자</p>
     <div id="result"></div>
+    <p>보너스번호</p>
     <span class="bonus"></span>
     <script>
         /* // forEach
@@ -51,13 +61,35 @@
 
         const result = document.querySelector('#result');
         const bonusBall = document.querySelector('.bonus');
+        let backgroundColor;
+
+        function ballColor(ball) {
+            if (ball <= 10) {
+                backgroundColor = 'red';
+            } else if (ball <= 20) {
+                backgroundColor = 'orange';
+            } else if (ball <= 30) {
+                backgroundColor = 'yellow';
+            } else if (ball <= 40) {
+                backgroundColor = 'skyblue';
+            } else {
+                backgroundColor = 'green';
+            }
+        }   
 
         for (var i = 0; i < winNumbers.length; i++) {
             let ball = document.createElement('span');
             ball.textContent = winNumbers[i];
             result.appendChild(ball);
+            ballColor(winNumbers[i]);
+            ball.style.backgroundColor = backgroundColor;
+
         }
-        bonusBall.textContent = bonusNumber;
+        setTimeout(function() {
+            bonusBall.textContent = bonusNumber;
+            ballColor(bonusBall);
+            bonusBall.style.backgroundColor = backgroundColor;
+        }, 2000)
         
     </script>
 </body>
