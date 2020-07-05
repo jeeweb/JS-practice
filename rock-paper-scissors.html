@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가위바위보</title>
+    <style>
+        #computer{
+            width: 140px;
+            height: 174px;
+            background-image: url("https://data.ac-illust.com/data/thumbnails/4f/4f63b32d7d43ea2cb231c0724200cf8e_t.jpeg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="computer"></div>
+    <div>
+        <button id="rock" class="btn">바위</button>
+        <button id="scissors" class="btn">가위</button>
+        <button id="papper" class="btn">보</button>
+    </div>
+    <script>
+        let left = '0';
+        const dictionary = {
+            바위: '0',
+            가위: '-134px',
+            보: '-274px'
+        }
+        //console.log(Object.entries(dictionary));
+        const score = {
+            가위: 1,
+            바위: 0,
+            보: -1
+        }
+
+        function computerChoice(left) {
+            return Object.entries(dictionary).find(function(v) {
+                //console.log(v)
+                //console.log(v[1], left);
+                return v[1] === left;
+            })[0];
+        };
+        let animation;
+        function aniInterval() {
+            animation = setInterval(function() {
+                if (left === dictionary.바위) {
+                    left = dictionary.가위;
+                } else if (left === dictionary.가위) {
+                    left = dictionary.보;
+                } else {
+                    left = dictionary.바위;
+                }
+                document.querySelector('#computer').style.backgroundPosition = left + ' 0';
+            }, 100)
+        }
+        aniInterval();
+    
+        document.querySelectorAll('.btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const choice = this.textContent;
+                const myScore = score[choice];
+                const computerScore = score[computerChoice(left)];
+                clearInterval(animation);
+                setTimeout(function() {
+                    aniInterval();
+                }, 1000)
+                
+                if (myScore - computerScore === 0) {
+                    console.log('비겼습니다');
+                } else if ([-1, 2].includes(myScore - computerScore)) {
+                    // myScore - computerScore === -1 || myScore - computerScore === 2
+                    console.log('이겼습니다')
+                } else {
+                    console.log('졌습니다.')
+                }
+
+                /* 
+                //console.log(this.textContent, computerChoice(left));
+                if (choice === '가위'){
+                    if (computerChoice(left) === '가위') {
+                        console.log('비겼습니다.')
+                    } else if (computerChoice(left) === '바위') {
+                        console.log('졌습니다.')
+                    } else {
+                        console.log('이겼습니다.')
+                    }
+                } else if (choice === '바위'){
+                    if (computerChoice(left) === '가위') {
+                        console.log('이겼습니다.')
+                    } else if (computerChoice(left) === '바위') {
+                        console.log('비겼습니다.')
+                    } else {
+                        console.log('졌습니다.')
+                    }
+                } else if (choice === '보'){
+                    if (computerChoice(left) === '가위') {
+                        console.log('졌습니다.')
+                    } else if (computerChoice(left) === '바위') {
+                        console.log('이겼습니다.')
+                    } else {
+                        console.log('비겼습니다.')
+                    }
+                }    
+                */
+            });
+        });
+        // 가위: 1, 바위: 0; 보: -1
+        //  나 | 컴퓨터     가위    바위    보
+        //          가위    1 1     1 0     1 -1
+        //          바위    0 1     0 0     0 -1
+        //           보    -1 1    -1 0    -1 -1
+
+    </script>
+</body>
+</html>
