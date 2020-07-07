@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지뢰찾기</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid #000;
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" id="horizon" placeholder="가로">
+    <input type="number" id="vertical" placeholder="세로">
+    <input type="number" id="mine" placeholder="지뢰">
+    <button id="exec">실행</button>
+    <table id="table">
+        <thead>
+            <tr>
+                <td><span id="timer">0</span>초</td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        document.querySelector('#exec').addEventListener('click', function() {
+            const hor = parseInt(document.querySelector('#horizon').value),
+                ver = parseInt(document.querySelector('#horizon').value),
+                mine = parseInt(document.querySelector('#mine').value);
+            console.log(hor, ver, mine);
+
+            const numbers = Array(hor * ver)
+                .fill()
+                .map(function(element, index) {
+                    return index;
+                })
+            //피셔예이츠 셔플
+            let shuffle = [];
+            while (numbers.length > 80) {
+                let move = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0];
+                shuffle.push(move);
+            }
+            console.log(shuffle);   
+            
+            let dataset = [];
+            const tbody = document.querySelector('#table tbody');
+            for (let i = 0; i < ver; i++) {
+                let arr = [];
+                dataset.push(arr);
+                const tr = document.createElement('tr');
+                for (let j = 0; j < hor; j++) {
+                    arr.push(1);
+                    const td = document.createElement('td');
+                    tr.appendChild(td);
+                    
+                }
+                tbody.appendChild(tr);
+            }
+            console.log(dataset);
+            // 지뢰심기
+            for (let k = 0; k < shuffle.length; k++) {  // 예 60
+                const row = Math.floor(shuffle[k] / 10);    // 예 7 -> 6
+                const column = shuffle[k] % 10;  // 예 0 -> 0
+                console.log(row, column);
+                tbody.children[row].children[column].textContent = 'x';
+                dataset[row][column] = 'x';
+            }
+        })
+    </script>
+</body>
+</html>
